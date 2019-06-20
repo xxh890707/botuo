@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration>
+
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd hh\:mm\:ss}\:%p %F - %m%n" />
+		</layout>
+
+		<!--限制输出级别 -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="ERROR" />
+			<param name="LevelMin" value="TRACE" />
+		</filter>
+	</appender>
+
+	<appender name="INFO_LOG" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="c:/logs/system_log.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<param name="Append" value="true" />
+		<param name="Threshold" value="DEBUG" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d - %c -%-4r [%t] %-5p %x - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="ERROR_LOG" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="c:/logs/error_log.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<param name="Append" value="true" />
+		<param name="Threshold" value="error" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d - %c -%-4r [%t] %-5p %x - %m%n" />
+		</layout>
+	</appender>
+
+	<logger name="com.botuo" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="INFO_LOG" />
+		<appender-ref ref="ERROR_LOG" />
+	</logger>
+	<logger name="com.botuo.common.security.shiro" additivity="false">
+		<level value="WARN" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="INFO_LOG" />
+		<appender-ref ref="ERROR_LOG" />
+	</logger>
+	<logger name="com.botuo.common.utils.JedisUtils" additivity="false">
+		<level value="WARN" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="INFO_LOG" />
+		<appender-ref ref="ERROR_LOG" />
+	</logger>
+	<logger name="com.botuo.modules.sys.web.LoginController" additivity="false">
+		<level value="WARN" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="INFO_LOG" />
+		<appender-ref ref="ERROR_LOG" />
+	</logger>
+	<!-- 3rdparty Loggers -->
+	<logger name="org.springframework.core">
+		<level value="ERROR" />
+	</logger>	
+	
+	<logger name="org.springframework.beans">
+		<level value="ERROR" />
+	</logger>
+	
+	<logger name="org.springframework.context">
+		<level value="ERROR" />
+	</logger>
+
+	<logger name="org.springframework.web">
+		<level value="ERROR" />
+	</logger>
+
+	<logger name="org.springframework.jdbc">
+		<level value="ERROR" />
+	</logger>
+
+	<logger name="org.mybatis.spring">
+		<level value="ERROR" />
+	</logger>
+	<logger name="java.sql">
+		<level value="DEBUG" />
+	</logger>
+
+	<root>
+		<priority value="INFO" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="INFO_LOG" />
+		<appender-ref ref="ERROR_LOG" />
+	</root>
+
+</log4j:configuration>   

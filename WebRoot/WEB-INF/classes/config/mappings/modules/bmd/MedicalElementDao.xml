@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.botuo.modules.bmd.dao.MedicalElementDao">
+    
+	<sql id="medicalElementColumns">
+		a.id AS "id",
+		a.type_id AS "medicalType.id",
+		b.name AS "medicalType.name",
+		a.name AS "name",
+		a.ename AS "ename",
+		a.sort AS "sort",
+		a.reference_adult AS "referenceAdult",
+		a.reference_children AS "referenceChildren",
+		a.standard_adult AS "standardAdult",
+		a.standard_children AS "standardChildren",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.bzz_cr AS "bzzCr",
+		a.ckz_crs AS "ckzCrs",
+		a.ckz_crb AS "ckzCrb",
+		a.bzz_et AS "bzzEt",
+		a.ckz_ets AS "ckzEts",
+		a.ckz_etb AS "ckzEtb",
+		a.bzz_ncr AS "bzzNcr",
+		a.ckz_ncrs AS "ckzNcrs",
+		a.ckz_ncrb AS "ckzNcrb",
+		a.bzz_net AS "bzzNet",
+		a.ckz_nets AS "ckzNets",
+		a.ckz_netb AS "ckzNetb",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="medicalElementJoins">
+		left join bmd_medical_type b ON a.type_id = b.id
+	</sql>
+    
+	<select id="get" resultType="MedicalElement">
+		SELECT 
+			<include refid="medicalElementColumns"/>
+		FROM bmd_medical_element a
+		<include refid="medicalElementJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findByReport" resultType="MedicalElement">
+		SELECT e.*,r.`value` FROM bmd_medical_result r
+		LEFT JOIN bmd_medical_element e ON r.element_id = e.id
+		WHERE r.medical_report_id = #{reportId}
+		order by e.sort
+	</select>
+	
+		<select id="findByType" resultType="MedicalElement">
+		SELECT 
+			<include refid="medicalElementColumns"/> 
+		FROM bmd_medical_element a
+		<include refid="medicalElementJoins"/>
+		WHERE a.type_id = #{typeId}
+	</select>
+	
+	<select id="findList" resultType="MedicalElement">
+		SELECT 
+			<include refid="medicalElementColumns"/>
+		FROM bmd_medical_element a
+		<include refid="medicalElementJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="medicalType != null and medicalType.id!=null and medicalType.id!=''">
+				AND a.type_id = #{medicalType.id}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sort 
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MedicalElement">
+		SELECT 
+			<include refid="medicalElementColumns"/>
+		FROM bmd_medical_element a
+		<include refid="medicalElementJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sort
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO bmd_medical_element(
+			id,
+			type_id,
+			name,
+			ename,
+			sort,
+			reference_adult,
+			reference_children,
+			standard_adult,
+			standard_children,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			bzz_cr,
+			ckz_crs,
+			ckz_crb,
+			bzz_et,
+			ckz_ets,
+			ckz_etb,
+			bzz_ncr,
+			ckz_ncrs,
+			ckz_ncrb,
+			bzz_net,
+			ckz_nets,
+			ckz_netb,
+			del_flag
+		) VALUES (
+			#{id},
+			#{medicalType.id},
+			#{name},
+			#{ename},
+			#{sort},
+			#{referenceAdult},
+			#{referenceChildren},
+			#{standardAdult},
+			#{standardChildren},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{bzzCr},
+			#{ckzCrs},
+			#{ckzCrb},
+			#{bzzEt},
+			#{ckzEts},
+			#{ckzEtb},
+			#{bzzNcr},
+			#{ckzNcrs},
+			#{ckzNcrb},
+			#{bzzNet},
+			#{ckzNets},
+			#{ckzNetb},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE bmd_medical_element SET 	
+			type_id = #{medicalType.id},
+			name = #{name},
+			ename = #{ename},
+			sort = #{sort},
+			reference_adult = #{referenceAdult},
+			reference_children = #{referenceChildren},
+			standard_adult = #{standardAdult},
+			standard_children = #{standardChildren},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			bzz_cr = #{bzzCr},
+			ckz_crs = #{ckzCrs},
+			ckz_crb = #{ckzCrb},
+			bzz_et = #{bzzEt},
+			ckz_ets = #{ckzEts},
+			ckz_etb = #{ckzEtb},
+			bzz_ncr = #{bzzNcr},
+			ckz_ncrs = #{ckzNcrs},
+			ckz_ncrb = #{ckzNcrb},
+			bzz_net = #{bzzNet},
+			ckz_nets = #{ckzNets},
+			ckz_netb = #{ckzNetb}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from bmd_medical_element 
+		WHERE id = #{id}
+	</delete>
+	
+</mapper>

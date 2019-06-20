@@ -1,0 +1,58 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<html>
+<head>
+	<title>公司报告类型表管理</title>
+	<meta name="decorator" content="default"/>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			//$("#name").focus();
+			$("#inputForm").validate({
+				submitHandler: function(form){
+					loading('正在提交，请稍等...');
+					form.submit();
+				},
+				errorContainer: "#messageBox",
+				errorPlacement: function(error, element) {
+					$("#messageBox").text("输入有误，请先更正。");
+					if (element.is(":checkbox")||element.is(":radio")||element.parent().is(".input-append")){
+						error.appendTo(element.parent().parent());
+					} else {
+						error.insertAfter(element);
+					}
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<ul class="nav nav-tabs">
+		<li><a href="${ctx}/bmd/officeMedicalType/">公司报告类型表列表</a></li>
+		<li class="active"><a href="${ctx}/bmd/officeMedicalType/form?id=${officeMedicalType.id}">公司报告类型表<shiro:hasPermission name="bmd:officeMedicalType:edit">${not empty officeMedicalType.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="bmd:officeMedicalType:edit">查看</shiro:lacksPermission></a></li>
+	</ul><br/>
+	<form:form id="inputForm" modelAttribute="officeMedicalType" action="${ctx}/bmd/officeMedicalType/save" method="post" class="form-horizontal">
+		<form:hidden path="id"/>
+		<form:hidden path="office.id"/>
+		<sys:message content="${message}"/>		
+		<div class="control-group">
+			<label class="control-label">检测报告类型：</label>
+			<div class="controls">
+				<sys:treeselect id="medicalType" name="medicalType.id" value="${officeMedicalType.medicalType.id}" labelName="medicalType.name" labelValue="${officeMedicalType.medicalType.name}"
+					title="检测报告类型" url="/bmd/medicalType/treeData" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">是否显示提示：</label>
+			<div class="controls">
+				<form:select path="showTip">
+					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</div>
+		</div>
+		<div class="form-actions">
+			<shiro:hasPermission name="bmd:officeMedicalType:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+		</div>
+	</form:form>
+</body>
+</html>

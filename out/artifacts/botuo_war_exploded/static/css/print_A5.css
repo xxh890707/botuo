@@ -1,0 +1,353 @@
+
+/*设置A5纸张*/
+@page {
+	size: A5;
+	margin: 0;
+	padding: 0;
+}
+/*公共样式*/
+.noprint {
+	visibility: hidden;
+}
+.printbtn {
+	width: 100px;
+	height: 40px;
+	position: fixed;
+	right: 20px;
+	top: 20px;
+}
+.printbtn a {
+	background: black;
+	color: white;
+	font-size: 12px;
+	line-height: 40px;
+	text-align: center;
+	text-decoration: none;
+	display: block;
+	border-radius: 2px;
+	-webkit-border-radius:2px;
+	-moz-border-radius:2px;
+}
+/* A5显示 */
+body {
+	background: #fff;
+	font-family:"Times New Roman",Georgia,Serif;
+	margin: 0;
+}
+table {
+	white-space: nowrap;
+}
+.fontsize_14 {
+	font-size: 13px;
+	line-height: 18px;
+}
+.fontsize_15 {
+	font-size: 15px;
+	line-height: 26px;
+}
+.fontsize_16 {
+	font-size: 16px;
+	line-height: 26px;
+}
+.printbox {
+	position: relative;
+	width: 210mm;
+	height: 148mm;
+	margin: 0 auto;
+	white-space: nowrap;
+	page-break-after:always;
+}
+.printbox_kh {
+	position: relative;
+	width: 210mm;
+	height: 148mm;
+	margin: 0 auto;
+	white-space: nowrap;
+	page-break-after:always;
+}
+.printbox p {
+	margin: 0;
+}
+.printbox_kh p {
+	margin:0;
+}
+.kongge {
+	height: 80px;
+	padding: 0 30px;
+	text-align: center;
+}
+.kongge img {
+	height: 100%;
+}
+.table {
+	width:100%;
+	border-top:1px solid black;
+	border-left: 1px solid black;
+}
+.table tr td {
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+	text-align: center;
+	line-height: 1.9;
+}
+.table tr td.whitespace {
+	white-space: nowrap;
+}
+.table tr td.rowspans {
+	padding: 0 5px;
+}
+.table_2 {
+	width: 100%;
+	text-align: left;
+}
+.nbsp_10 {
+	height: 10px;
+}
+.nbsp_5 {
+	height: 5px;
+}
+.ewmbox {
+	height:80px;
+	position:relative
+}
+.ewm {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 80px;
+	height: 80px;
+}
+.ewm_kh {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 80px;
+	height: 80px;
+}
+.ewm img,
+.ewm_kh img {
+	width: 100%;
+}
+.ewmp {
+	position: absolute;
+	right: 85px;
+	top: 20px;
+	text-align: center;
+	font-size: 13px;
+	line-height: 1.5;
+}
+.ewmp_kh {
+	position: absolute;
+	right: 85px;
+	top: 20px;
+	text-align: center;
+	font-size: 13px;
+	line-height: 1.5;
+}
+.jch {
+	position: absolute;
+	left: 0px;
+	top: 10px;
+}
+.jch_kh {
+	position: absolute;
+	left: 0px;
+	top: 10px;
+}
+.title {
+	padding:15px 0;
+	margin:0;
+	font-size:24px;
+	text-align:center;
+	font-weight:normal;
+}
+.title-smi {
+	font-size:18px;
+	text-align:center;
+}
+.ultable {
+	width:100%;
+	white-space: nowrap;
+	line-height: 22px;
+	list-style: none;
+	overflow: hidden;
+	position: relative;
+	margin: 0;
+	padding: 0;
+}
+.ultable li.w35 {
+	width: 35px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.ultable li.whitespacenormal {
+	white-space: normal;
+	padding-left: 35px;
+	clear: both;
+}
+@media print {
+	@page {
+		size: A5;
+		margin: 0;
+		padding: 0;
+	}
+	/* A5打印 */
+	body {
+		background: #fff;
+		font-family:"Times New Roman",Georgia,Serif;
+		margin: 0;
+	}
+	table {
+		white-space: nowrap;
+	}
+	.fontsize_14 {
+		font-size: 13px;
+		line-height: 18px;
+	}
+	.fontsize_15 {
+		font-size: 15px;
+		line-height: 26px;
+	}
+	.fontsize_16 {
+		font-size: 16.5px;
+		line-height: 26px;
+	}
+	.printbox {
+		position: relative;
+		width: 210mm;
+		height: 148mm;
+		margin: 0 auto;
+		white-space: nowrap;
+		page-break-after:always;
+		padding: 1cm 1.8cm 0 1.8cm;
+	}
+	.printbox_kh {
+		position: relative;
+		width: 210mm;
+		height: 148mm;
+		margin: 0 auto;
+		white-space: nowrap;
+		page-break-after:always;
+		padding: 0.3cm 1.8cm 0 1.8cm;
+	}
+	.printbox p {
+		margin: 0;
+	}
+	.printbox_kh p {
+		margin: 0;
+	}
+	.kongge {
+		height: 80px;
+		padding: 0 30px;
+		text-align: center;
+	}
+	.kongge img {
+		height: 100%;
+	}
+	.table {
+		width:100%;
+		border-top:1px solid black;
+		border-left: 1px solid black;
+	}
+	.table tr td {
+		border-bottom: 1px solid black;
+		border-right: 1px solid black;
+		text-align: center;
+		line-height: 1.9;
+	}
+	.table tr td.whitespace {
+		white-space: nowrap;
+	}
+	.table tr td.rowspans {
+		padding: 0 5px;
+	}
+	.table_2 {
+		width: 100%;
+		text-align: left;
+	}
+	.nbsp_10 {
+		height: 10px;
+	}
+	.nbsp_5 {
+		height: 5px;
+	}
+	.ewmbox {
+		height:80px;
+		position:relative
+	}
+	.ewm {
+		position: absolute;
+		right: 0px;
+		top: 0px;
+		width: 80px;
+		height: 80px;
+	}
+	.ewm_kh {
+		position: absolute;
+		right: 1.8cm;
+		top: 1cm;
+		width: 80px;
+		height: 80px;
+	}
+	.ewm img,
+	.ewm_kh img {
+		width: 100%;
+	}
+	.ewmp {
+		position: absolute;
+		right: 85px;
+		top: 20px;
+		text-align: center;
+		font-size: 13px;
+		line-height: 1.5;
+	}
+	.ewmp_kh {
+		position: absolute;
+		right: 4.2cm;
+		top: 1.5cm;
+		text-align: center;
+		font-size: 13px;
+		line-height: 1.5;
+	}
+	.jch {
+		position: absolute;
+		left: 0px;
+		top: 10px;
+	}
+	.jch_kh {
+		position: relative;
+	}
+	.title {
+		padding: 15px 0;
+		margin: 0;
+		font-size:24px;
+		text-align:center;
+		font-weight:normal;
+	}
+	.title-smi {
+		font-size:18px;
+		text-align:center;
+	}
+	.ultable {
+		width:100%;
+		white-space: nowrap;
+		line-height: 22px;
+		list-style: none;
+		overflow: hidden;
+		position: relative;
+		margin: 0;
+		padding: 0;
+	}
+	.ultable li.w35 {
+		width: 35px;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	.ultable li.whitespacenormal {
+		white-space: normal;
+		padding-left: 35px;
+		clear: both;
+	}
+}

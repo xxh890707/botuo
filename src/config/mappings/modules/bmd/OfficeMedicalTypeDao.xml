@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.botuo.modules.bmd.dao.OfficeMedicalTypeDao">
+    
+	<sql id="officeMedicalTypeColumns">
+		a.id AS "id",
+		a.office_id AS "office.id",
+		a.type_id AS "medicalType.id",
+		a.template AS "template",
+		a.show_tip AS "showTip",
+		o.name AS "office.name",
+		mt.name AS "medicalType.name"
+	</sql>
+	
+	<sql id="officeMedicalTypeJoins">
+		LEFT JOIN sys_office o ON o.id = a.office_id
+		left join bmd_medical_type mt on a.type_id = mt.id
+	</sql>
+    
+	<select id="get" resultType="OfficeMedicalType">
+		SELECT 
+			<include refid="officeMedicalTypeColumns"/>
+		FROM bmd_office_medical_type a
+		<include refid="officeMedicalTypeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	
+	<select id="findByOfficeName" resultType="OfficeMedicalType">
+		SELECT
+			a.id AS "id",
+			a.office_id AS "office.id",
+			a.type_id AS "medicalType.id"
+		FROM
+			bmd_office_medical_type a
+		LEFT JOIN sys_office b ON a.office_id = b.id
+		LEFT JOIN bmd_medical_type c ON a.type_id = c.id
+		WHERE
+			c.type = #{type}
+		AND b.`name` LIKE CONCAT('%', #{deliverUnit}, '%')
+	</select>
+	
+	
+	
+	<select id="findList" resultType="OfficeMedicalType">
+		SELECT 
+			<include refid="officeMedicalTypeColumns"/>
+		FROM bmd_office_medical_type a
+		<include refid="officeMedicalTypeJoins"/>
+		<where>
+			<if test="office!=null and office.id!=null and office.id!=''">
+				and a.office_id = #{office.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OfficeMedicalType">
+		SELECT 
+			<include refid="officeMedicalTypeColumns"/>
+		FROM bmd_office_medical_type a
+		<include refid="officeMedicalTypeJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO bmd_office_medical_type(
+			id,
+			office_id,
+			type_id,
+			template,
+			show_tip
+		) VALUES (
+			#{id},
+			#{office.id},
+			#{medicalType.id},
+			#{template},
+			#{showTip}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE bmd_office_medical_type SET 	
+			office_id = #{office.id},
+			type_id = #{medicalType.id},
+			template = #{template},
+			show_tip = #{showTip}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM bmd_office_medical_type
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

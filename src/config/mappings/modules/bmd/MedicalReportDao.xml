@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.botuo.modules.bmd.dao.MedicalReportDao">
+	
+    
+	<sql id="medicalReportColumns">
+		a.id AS "id",
+		a.office_medical_type_id AS "officeMedicalType.id",
+		a.batch AS "batch",
+		mt.`name` AS "name",
+		a.report_num AS "reportNum",
+		a.person AS "person",
+		a.user_id AS "user.id",
+		a.deliver_unit AS "deliverUnit",
+		a.sex AS "sex",
+		a.age AS "age",
+		a.detection_method AS "detectionMethod",
+		a.technical_director AS "technicalDirector",
+		a.phone AS "phone",
+		a.detection_date AS "detectionDate",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.qrcode AS "qrcode",
+		a.gscode AS "gscode",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		u.NAME AS "user.name",
+		omt.template AS "template"
+	</sql>
+	
+	<sql id="medicalReportJoins">
+		LEFT JOIN sys_user u ON u.id = a.create_by
+		LEFT JOIN bmd_office_medical_type omt on a.office_medical_type_id = omt.id
+		LEFT JOIN bmd_medical_type mt on omt.type_id = mt.id
+	</sql>
+    
+	<select id="get" resultType="MedicalReport">
+		SELECT 
+			<include refid="medicalReportColumns"/>
+		FROM bmd_medical_report a
+		<include refid="medicalReportJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MedicalReport">
+		SELECT 
+		me.NAME AS "elements.name",
+		mr.VALUE AS "elements.value",
+			<include refid="medicalReportColumns"/>
+		FROM bmd_medical_report a
+		<include refid="medicalReportJoins"/>
+		LEFT JOIN bmd_medical_result mr ON a.id = mr.medical_report_id
+		LEFT JOIN bmd_medical_element me ON mr.element_id = me.id 
+		<where>
+			and a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name !=null and name != ''">
+				and mt.`name` LIKE CONCAT('%,', #{name}, ',%'))
+			</if>
+			<if test="person != null and person != ''">
+				and a.person LIKE CONCAT('%,', #{person}, ',%'))
+			</if>
+			${sqlMap.dsf}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findReportPage" resultType="MedicalReport">
+		SELECT
+			a.id,
+			a.batch,
+			a.report_num AS "reportNum",
+			a.person,
+			a.sex,
+			a.age,
+			a.phone,
+			a.deliver_unit AS "deliverUnit",
+			a.detection_date AS "detectionDate", 
+			o.id AS "office.id",
+			o.name AS "office.name",
+			a.qrcode AS "qrcode",
+			a.gscode AS "gscode",
+			t.type,
+			a.is_print AS "isPrint",
+			a.zn,
+			a.fe,
+			a.cu,
+			a.ca,
+			a.mg,
+			a.pb,
+			a.mn,
+			a.sr,
+			a.cd,
+			a.al,
+			a.cr,
+			a.ni,
+			a.mo,
+			a.co,
+			a.ba,
+			a.v,
+			a.ti,
+			a.b,
+			a.sn,
+			a.si,
+			a.se,
+			a.k,
+			a.p
+<!-- 			MAX(
+		
+				IF (e.ename = 'Zn', round(r.`value`,2), '')
+			) AS "Zn",
+			MAX(
+		
+				IF (e.ename = 'Fe', round(r.`value`,1), '')
+			) AS "Fe",
+			MAX(
+		
+				IF (e.ename = 'Cu', round(r.`value`,2), '')
+			) AS "Cu",
+			MAX(
+		
+				IF (e.ename = 'Ca', round(r.`value`,1), '')
+			) AS "Ca",
+			MAX(
+		
+				IF (e.ename = 'Mg', round(r.`value`,1), '')
+			) AS "Mg",
+			MAX(
+		
+				IF (e.ename = 'Pb', round(r.`value`,3), '')
+			) AS "Pb",
+			MAX(
+		
+				IF (e.ename = 'Mn', round(r.`value`,1), '')
+			) AS "Mn",
+			MAX(
+		
+				IF (e.ename = 'Sr', round(r.`value`,2), '')
+			) AS "Sr",
+			MAX(
+		
+				IF (e.ename = 'Cd', round(r.`value`,2), '')
+			) AS "Cd",
+			MAX(
+		
+				IF (e.ename = 'Al', round(r.`value`,1), '')
+			) AS "Al",
+			MAX(
+		
+				IF (e.ename = 'Cr', round(r.`value`,2), '')
+			) AS "Cr",
+			MAX(
+		
+				IF (e.ename = 'Ni', round(r.`value`,2), '')
+			) AS "Ni",
+			MAX(
+		
+				IF (e.ename = 'Mo', round(r.`value`,2), '')
+			) AS "Mo",
+			MAX(
+		
+				IF (e.ename = 'Co', round(r.`value`,2), '')
+			) AS "Co",
+			MAX(
+		
+				IF (e.ename = 'Ba', round(r.`value`,2), '')
+			) AS "Ba",
+			MAX(
+		
+				IF (e.ename = 'V', round(r.`value`,2), '')
+			) AS "V",
+			MAX(
+		
+				IF (e.ename = 'Ti', round(r.`value`,2), '')
+			) AS "Ti",
+			MAX(
+		
+				IF (e.ename = 'B', round(r.`value`,2), '')
+			) AS "B",
+			MAX(
+		
+				IF (e.ename = 'Sn', round(r.`value`,2), '')
+			) AS "Sn",
+			MAX(
+		
+				IF (e.ename = 'Si', round(r.`value`,2), '')
+			) AS "Si",
+			MAX(
+		
+				IF (e.ename = 'Se', round(r.`value`,2), '')
+			) AS "Se",
+			MAX(
+		
+				IF (e.ename = 'K', round(r.`value`,1), '')
+			) AS "K",
+			MAX(
+		
+				IF (e.ename = 'P', round(r.`value`,1), '')
+			) AS "P" -->
+		FROM
+			bmd_medical_report a
+		LEFT JOIN bmd_office_medical_type b ON a.office_medical_type_id = b.id
+		LEFT JOIN sys_office o ON b.office_id = o.id
+		LEFT JOIN bmd_medical_type t ON b.type_id = t.id
+<!-- 		LEFT JOIN bmd_medical_element e ON b.type_id = e.type_id
+		LEFT JOIN bmd_medical_result r ON e.id = r.element_id
+		AND r.medical_report_id = a.id -->
+		<where>
+			<if test="id != null and id != ''">
+				and a.id = #{id}
+			</if>
+			<if test="ids != null">
+				and a.id in
+				<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+				            #{item} 
+				</foreach>
+				
+			</if>
+			<if test="type != null and type != ''">
+				and t.type= #{type}
+			</if>
+			<if test="batch != null and batch!= ''">
+				and a.batch LIKE CONCAT('%', #{batch}, '%')
+			</if>
+			<if test="beginDate != null and beginDate != ''">
+				and a.detection_date <![CDATA[   >=  ]]> #{beginDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				and a.detection_date <![CDATA[   <=  ]]> #{endDate}
+			</if>
+			<if test="reportNum != null and reportNum!= ''">
+				and a.report_num LIKE CONCAT('%', #{reportNum}, '%')
+			</if>
+			<if test="person != null and person != ''">
+				and a.person LIKE CONCAT('%', #{person}, '%')
+			</if>
+			<if test="deliverUnit != null and deliverUnit != ''">
+				and a.deliver_unit LIKE CONCAT('%', #{deliverUnit}, '%')
+			</if>
+			<if test="sex != null and sex != ''">
+			  <if test="sex ==2">
+			  	and a.sex not in (0,1)
+			  </if>
+			  <if test="sex !=2">
+			  	and a.sex = #{sex}
+			  </if>
+			</if>
+			<if test="office !=null and office.id != null and office.id != ''">
+				and o.id = #{office.id}
+			</if>
+			<if test="phone != null and phone != ''">
+				and a.phone LIKE CONCAT('%', #{phone}, '%')
+			</if>
+			${sqlMap.dsf}
+		</where>
+		GROUP BY
+			a.id
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.detection_date DESC,a.batch,a.report_num asc
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MedicalReport">
+		SELECT 
+			<include refid="medicalReportColumns"/>
+		FROM bmd_medical_report a
+		<include refid="medicalReportJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO bmd_medical_report(
+			id,
+			office_medical_type_id,
+			batch,
+			report_num,
+			person,
+			user_id,
+			deliver_unit,
+			sex,
+			age,
+			detection_method,
+			technical_director,
+			phone,
+			detection_date,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			qrcode,
+			gscode,
+			zn,
+			fe,
+			cu,
+			ca,
+			mg,
+			pb,
+			mn,
+			sr,
+			cd,
+			al,
+			cr,
+			ni,
+			mo,
+			co,
+			ba,
+			v,
+			ti,
+			b,
+			sn,
+			si,
+			se,
+			k,
+			p,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{officeMedicalType.id},
+			#{batch},
+			#{reportNum},
+			#{person},
+			#{user.id},
+			#{deliverUnit},
+			#{sex},
+			#{age},
+			#{detectionMethod},
+			#{technicalDirector},
+			#{phone},
+			#{detectionDate},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{qrcode},
+			#{gscode},
+			#{zn},
+			#{fe},
+			#{cu},
+			#{ca},
+			#{mg},
+			#{pb},
+			#{mn},
+			#{sr},
+			#{cd},
+			#{al},
+			#{cr},
+			#{ni},
+			#{mo},
+			#{co},
+			#{ba},
+			#{v},
+			#{ti},
+			#{b},
+			#{sn},
+			#{si},
+			#{se},
+			#{k},
+			#{p},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE bmd_medical_report SET 	
+			office_medical_type_id = #{officeMedicalType.id},
+			batch = #{batch},
+			report_num = #{reportNum},
+			person = #{person},
+			deliver_unit = #{deliverUnit},
+			sex = #{sex},
+			age = #{age},
+			detection_method = #{detectionMethod},
+			technical_director = #{technicalDirector},
+			phone = #{phone},
+			detection_date = #{detectionDate}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<update id="updateBatch" parameterType="java.util.List">
+	    update bmd_medical_report 
+	    set  is_print= 1
+	    where is_print != 1 and id in
+	    <foreach collection="list" index="index" item="item" 
+	        separator="," open="(" close=")">
+	        #{item.id,jdbcType=VARCHAR}
+	    </foreach>
+	 </update>
+	
+	<delete id="delete">
+		delete from bmd_medical_report  
+			
+		WHERE id = #{id}
+	</delete>
+	
+</mapper>

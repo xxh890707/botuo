@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.botuo.modules.bmd.dao.MedicalResultDao">
+    
+	<sql id="medicalResultColumns">
+		a.id AS "id",
+		
+		a.medical_report_id AS "medicalReportId",
+		a.element_id AS "elementId",
+		
+		a.value AS "value"
+	</sql>
+	
+	<sql id="medicalResultJoins">
+	</sql>
+    
+	<select id="get" resultType="MedicalResult">
+		SELECT 
+			<include refid="medicalResultColumns"/>
+		FROM bmd_medical_result a
+		<include refid="medicalResultJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MedicalResult">
+		SELECT 
+			e.ename,
+			<include refid="medicalResultColumns"/>
+		FROM bmd_medical_result a
+		LEFT JOIN bmd_medical_element e on a.element_id = e.id
+		<include refid="medicalResultJoins"/>
+		<where>
+			<if test="medicalReportId != null and medicalReportId != ''">
+				and a.medical_report_id = #{medicalReportId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MedicalResult">
+		SELECT 
+			<include refid="medicalResultColumns"/>
+		FROM bmd_medical_result a
+		<include refid="medicalResultJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO bmd_medical_result(
+			id,
+			medical_report_id,
+			element_id,
+			value
+		) VALUES (
+			#{id},
+			#{medicalReportId},
+			#{elementId},
+			#{value}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE bmd_medical_result SET 	
+			medical_report_id = #{medicalReportId},
+			element_id = #{elementId},
+			value = #{value}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM bmd_medical_result
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

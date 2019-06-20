@@ -1,0 +1,77 @@
+@charset "utf-8";
+body{margin:0;font:12px/1.8 Tahoma,Geneva,'\5B8B\4F53';color:#333;background:white;}
+input,textarea,select{margin:0;padding:0;font-size:12px;outline:none;resize:none;}
+html:root body,html:root input,html:root button,html:root textarea,html:root select{font-family:Tahoma,Geneva,'\5fae\8f6f\96c5\9ed1','\5B8B\4F53';}
+form,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,p{margin:0;padding:0;list-style:none;}
+
+a:hover{text-decoration:underline;}
+
+.cell .text{font-size:14px;font-weight:bold;color:#333;border:1px solid;border-color:#CECECF;border-radius:0;background:white;box-shadow:inset 1px 1px 2px rgba(0, 0, 0, 0.1);-webkit-appearance:none;}
+.text:focus,textarea:focus{outline:none;border-color:#92AFED;box-shadow:0 0 5px #92AFEC,inset 1px 1px 2px rgba(0, 0, 0, 0.1);}
+.text{width:170px;height:24px;padding:7px 9px;line-height:24px;}
+input.err,input.err:focus{color:#900;border-color:#E06341;background:#FFEFEC;box-shadow:0 0 5px #E06341;}
+
+
+.button{display:inline-block;text-decoration:none;color:#fff;height:40px;padding:0 15px;line-height:40px;text-align:center;font-size:18px;font-family:'Heiti SC','\5fae\8f6f\96c5\9ed1','\9ed1\4f53';color:white;border:0 none;background-color:#167efb;background-repeat:repeat-x;background-position:0 0;cursor:pointer;}
+.button:hover{text-decoration:none;background-color:#1672e3;}
+.button:active{background-color:#3482e1;}
+.btn-gray{color:#666;background-color:#eee;}
+.btn-gray:hover{background-color:#ddd;}
+.btn-gray:active{background-color:#e7e7e7;}
+.btn-green{height:50px;line-height:50px;background-color:#fd8c27;}
+.btn-green:hover{background-color:#e16d06;}
+.btn-green:active{background-color:#fd8c27;}
+.btn-disabled,.btn-disabled:hover,.btn-disabled:active{background-color:#e7e7e7;color:#A1A1A1;cursor:not-allowed;}
+
+
+/* 内容开始*/
+.login-wrap{position:relative;z-index:0;height:500px;}
+.banner-show{position:absolute;top:0;left:0;z-index:0;width:100%;min-width:980px;height:500px;overflow:hidden;}
+.banner-show .cell{position:absolute;top:0;left:0;width:100%;overflow:hidden;background:#1c488d;}
+.banner-show .cell .con{position:relative;height:500px;background-repeat:no-repeat;background-position:center top;}
+
+.bns-01 .con{width:1200px;margin:0 auto;}
+.bns-01 .con img{height:500px;}
+.login-container{position:relative;top:500px;z-index:2;width:980px;height:0;margin:auto;}
+
+.register-box{position:absolute;top:-450px;right:0;width:396px;height:380px;background:white;border-radius:3px;}
+.reg-tab{position:relative;width:396px;height:57px;zoom:1;overflow:hidden;border-radius:3px 3px 0 0;}
+.reg-tab span{float:left;width:198px;height:57px;margin-left:-1px;line-height:57px;text-align:center;font-size:24px;color:#444;border-left:1px solid #d2d3d4;cursor:pointer;}
+.reg-tab span:first-child{border-top-left-radius:3px;}
+.reg-tab span:last-child{border-top-right-radius:3px;}
+.reg-tab span.current{background:none;cursor:default;}
+.reg-slogan{height:50px;line-height:50px;text-align:center;font-size:16px; width:330px;}
+.reg-form{width:328px;height:230px;margin:auto; z-index:4; padding-top:50px;}
+.reg-form .cell{position:relative;height:40px;margin-bottom:30px;zoom:1;}
+.reg-form .cell label{position:absolute;top:0;left:0;z-index:1;padding:0 12px;line-height:40px;font-size:16px;color:#999;font-weight:bold;cursor:text;}
+.reg-form .val label{left:-9999px;opacity:0!important;filter:alpha(opacity="0")!important;}
+.reg-form .cell input{border-radius:3px; font-weight:400;position:absolute;top:0;left:0;width:268px;padding:9px 11px;font-size:16px;background:none; padding-left:45px;}
+
+
+.reg-form .bottom{height:40px; width:330px;}
+.reg-form .bottom .button{display:block;border-radius:3px;color:#fff;}
+.login-radio{margin-bottom: 20px;margin-top: 30px;color: #666;text-align: center;}
+.login-radio input{margin-right: 5px;}
+.login-radio label{margin-right: 15px;}
+
+
+.cell i{ display:block; float:left; width:40px; height:40px; margin-top:2px;}
+.cell .user{ background:url("images/login_icons.png") 0px 0px;}
+.cell .pwd{ background:url("images/login_icons.png") 0px -40px;}
+.check{ height:40px;font-size:14px;}
+.check input{ vertical-align:middle; }
+
+
+.tk_login{width:380px;min-height:370px;font-size:14px; background:#fff;padding:10px;}
+.pop_header{ border-bottom:1px solid #dedede; height:52px; line-height:52px;}
+.menub1_1 {float: left; width:50%; cursor: pointer; color: #999; line-height:52px; font-size:18px;height: 52px; text-align: center; color:#F60; border-bottom:2px solid #F60;}
+.menub1_2 {float: left; width:50%; cursor: pointer; color: #999; line-height:52px;font-size:18px;height:52px; text-align: center}
+.menugtab { clear:both; padding:0px 25px 15px;}
+.reg-form .form-error{position:absolute;width: 324px; top:64px;height:30px;line-height:28px;}
+.reg-form .form-error i{ position:absolute; top:4px; left:12px; width:16px; height:20px;background: url(../images/member.png) -124px 3px no-repeat;}
+.reg-form .form-error .text{display:block;max-width: 258px; padding-left:22px; line-height:16px; font-family:"Microsoft YaHei"; color:#666;margin-left: 15px;}
+
+.menugtab .cell{font-size: 18px;text-align: center;color: #666;}
+.menugtab .cell a{font-size: 16px;padding-right: 20px;text-decoration:none;color:#224892;outline:none;}
+.menugtab .cell a:hover{color: #fd8c27;}
+.menugtab img{vertical-align: middle;margin-right: 20px;}
